@@ -1,39 +1,61 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Управління персоналом</title>
+    <title>Панель Адміністратора</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="container mt-5">
-<h2>Департаменти</h2>
-<form th:action="@{/department/add}" method="POST" class="row g-3 mb-4">
-    <div class="col-auto"><input type="text" name="name" class="form-control" placeholder="Назва департаменту" required></div>
-    <div class="col-auto"><button type="submit" class="btn btn-success">Додати</button></div>
-</form>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Панель управління системою (ADMIN)</h2>
+    <form th:action="@{/logout}" method="POST">
+        <button type="submit" class="btn btn-danger btn-sm">Вийти з системи</button>
+    </form>
+</div>
 
-<h2>Співробітники</h2>
-<a th:href="@{/employee/add}" class="btn btn-primary mb-3">Додати співробітника</a>
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>ПІБ</th>
-        <th>Департамент</th>
-        <th>Контакти</th>
-        <th>Адреса</th>
-        <th>Зарплата</th>
-        <th>Дії</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="e : ${employees}">
-        <td th:text="${e.fullName}"></td>
-        <td th:text="${e.department?.name}"></td>
-        <td th:text="${e.contactInfo}"></td>
-        <td th:text="${e.address}"></td>
-        <td th:text="${e.salary}"></td>
-        <td><a th:href="@{/employee/delete/{id}(id=${e.id})}" class="btn btn-danger btn-sm">Видалити</a></td>
-    </tr>
-    </tbody>
-</table>
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card p-3 shadow-sm">
+            <h5>Створити департамент</h5>
+            <form th:action="@{/department/add}" method="POST">
+                <div class="mb-3">
+                    <input type="text" name="name" class="form-control" placeholder="Назва відділу" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Додати</button>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8 text-end mb-4">
+        <a th:href="@{/employee/new-form}" class="btn btn-primary btn-lg">+ Зареєструвати співробітника</a>
+    </div>
+</div>
+
+<div class="card p-4 shadow">
+    <h4>Список співробітників компанії</h4>
+    <table class="table table-striped mt-3">
+        <thead>
+        <tr>
+            <th>ПІБ</th>
+            <th>Департамент</th>
+            <th>Контакти</th>
+            <th>Зарплата</th>
+            <th>Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="e : ${employees}">
+            <td th:text="${e.fullName}"></td>
+            <td th:text="${e.department?.name}"></td>
+            <td th:text="${e.contactInfo}"></td>
+            <td th:text="${e.salary} + ' ₴'"></td>
+            <td>
+                <a th:href="@{/employee/delete/{id}(id=${e.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Ви впевнені?')">Видалити</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(employees)}">
+            <td colspan="5" class="text-center text-muted">Співробітників ще не додано. База порожня.</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
