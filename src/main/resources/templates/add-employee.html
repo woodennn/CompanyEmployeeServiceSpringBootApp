@@ -8,7 +8,6 @@
 <h2>Реєстрація співробітника</h2>
 
 <form th:action="@{/employee/save}" th:object="${employee}" method="POST">
-
     <div class="mb-3">
         <label class="form-label">ПІБ</label>
         <input type="text" th:field="*{fullName}" class="form-control" required>
@@ -22,14 +21,10 @@
     </div>
 
     <div class="card p-3 mb-4 bg-light">
-        <h5 class="text-secondary mb-3">Дані для Особистого кабінету (Customer)</h5>
-        <div class="mb-3">
-            <label class="form-label">Логін (Username):</label>
-            <input type="text" name="username" class="form-control" placeholder="Наприклад: ivan_ivanov">
-        </div>
+        <h5 class="text-secondary mb-3">Зв'язок з акаунтом Keycloak</h5>
         <div class="mb-0">
-            <label class="form-label">Пароль:</label>
-            <input type="password" name="password" class="form-control" placeholder="Введіть пароль">
+            <label class="form-label">Логін користувача в Keycloak (Username):</label>
+            <input type="text" name="username" class="form-control" placeholder="Наприклад: ihor" required autocomplete="off">
         </div>
     </div>
 
