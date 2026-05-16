@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Особистий Кабінет</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-5" style="max-width: 700px;">
+<div class="card shadow p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Особистий кабінет працівника</h2>
+        <form th:action="@{/logout}" method="POST">
+            <button type="submit" class="btn btn-danger btn-sm">Вийти</button>
+        </form>
+    </div>
+
+    <div th:if="${error}" class="alert alert-warning text-center th:text=${error}">
+        До вашого акаунту ще не прив'язано картку співробітника.
+    </div>
+
+    <div th:if="${employee}">
+        <h4 class="text-primary mb-3" th:text="${employee.fullName}">ПІБ Співробітника</h4>
+        <hr>
+        <table class="table table-borderless">
+            <tr>
+                <th style="width: 30%;">Департамент:</th>
+                <td th:text="${employee.department?.name}">Не вказано</td>
+            </tr>
+            <tr>
+                <th>Контакти:</th>
+                <td th:text="${employee.contactInfo}">Не вказано</td>
+            </tr>
+            <tr>
+                <th>Адреса проживання:</th>
+                <td th:text="${employee.address}">Не вказано</td>
+            </tr>
+            <tr>
+                <th>Поточна заробітна плата:</th>
+                <td><strong class="text-success" th:text="${employee.salary} + ' ₴'">0 ₴</strong></td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
